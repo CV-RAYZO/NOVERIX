@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>noverix – Precision in Every Detail</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    /* Derin Lacivert - Ana arka planlar için */
+    --bg: #0a1128; 
+    /* Biraz daha açık lacivert - Kartlar ve üst menü için */
+    --surface: #101f42; 
+    /* Katmanlı alanlar için en açık lacivert tonu */
+    --surface2: #1c2d5a; 
+    /* İnce çizgiler ve sınırlar için transparan lacivert */
+    --border: rgba(255, 255, 255, 0.08); 
+    
+    /* Sıcak Krem - Ana metinler ve okunabilirlik için */
+    --text: #f7f4eb; 
+    /* Opaklığı azaltılmış krem - Yan metinler ve logolar için */
+    --muted: rgba(247, 244, 235, 0.6); 
+    
+    /* Bakır Tonu - Başlık vurguları ve zarif detaylar için */
+    --accent: #b87333; 
+    /* Daha yumuşak/açık bakır tonu */
+    --accent2: #d4a373; 
+    
+    /* Sinyal Sarısı - Butonlar ve dikkat çeken etkileşimler için */
+    --white: #ffd700; 
+  }
+
+  /* Arapça Fontu */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600&display=swap');
+
+[lang="ar"] body { font-family: 'Cairo', sans-serif; }
+[lang="ar"] .nav-logo, [lang="ar"] h1, [lang="ar"] h2 { font-family: 'Cairo', sans-serif; }
+
+/* Dil Butonları Stili */
+.lang-switcher { display: flex; gap: 10px; margin-left: 20px; }
+.lang-btn {
+  background: transparent; border: 1px solid var(--border); color: var(--text);
+  padding: 4px 8px; cursor: pointer; font-size: 0.7rem; transition: all 0.3s;
+}
+.lang-btn.active { border-color: var(--accent); color: var(--accent); }
+
+/* Sağdan Sola (RTL) Ayarı */
+[dir="rtl"] { text-align: right; }
+[dir="rtl"] nav, [dir="rtl"] .nav-links { flex-direction: row-reverse; }
+[dir="rtl"] .hero-content { padding: 0 64px 80px 0; margin-right: 0; margin-left: auto; }
+[dir="rtl"] .about-list li { padding-left: 0; padding-right: 20px; }
+[dir="rtl"] .about-list li::before { left: auto; right: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 48px;
+    background: rgba(10,10,10,0.7);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; font-weight: 600; letter-spacing: .12em;
+    color: var(--text); text-decoration: none; text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none; font-size: .78rem;
+    letter-spacing: .12em; text-transform: uppercase;
+    transition: color .3s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* ── HERO ── */
+  .hero {
+    height: 100vh; position: relative; overflow: hidden;
+    display: flex; align-items: flex-end;
+  }
+  .hero video {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: .55;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,10,10,.9) 0%, transparent 60%);
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 0 64px 80px;
+    max-width: 760px;
+  }
+  .hero-label {
+    font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 300; line-height: 1.05; letter-spacing: -.01em;
+    margin-bottom: 16px;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent2); }
+  .hero p {
+    font-size: 1rem; color: var(--muted); max-width: 420px; line-height: 1.7;
+    margin-bottom: 36px;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 32px;
+    border: 1px solid var(--accent);
+    color: var(--accent); text-decoration: none;
+    font-size: .78rem; letter-spacing: .16em; text-transform: uppercase;
+    transition: background .3s, color .3s;
+    cursor: pointer; background: transparent;
+  }
+  .btn:hover { background: var(--accent); color: var(--bg); }
+  .btn-solid {
+    background: var(--accent); color: var(--bg); border-color: var(--accent);
+  }
+  .btn-solid:hover { background: transparent; color: var(--accent); }
+
+  /* ── MARQUEE ── */
+  .marquee-wrap {
+    overflow: hidden; background: var(--surface);
+    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    padding: 18px 0;
+  }
+  .marquee-track {
+    display: flex; gap: 64px; white-space: nowrap;
+    animation: marquee 18s linear infinite;
+  }
+  .marquee-track span {
+    font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--muted);
+    flex-shrink: 0;
+  }
+  .marquee-track span.dot { color: var(--accent); }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── FEATURES GRID ── */
+  .features { padding: 120px 64px; }
+  .section-label {
+    font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 4vw, 3.8rem); font-weight: 300;
+    line-height: 1.1; margin-bottom: 64px; max-width: 520px;
+  }
+  .section-title em { font-style: italic; color: var(--accent2); }
+
+  .features-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;
+  }
+  .feature-card {
+    background: var(--surface); padding: 40px 32px;
+    border: 1px solid var(--border);
+    transition: background .3s, transform .3s;
+  }
+  .feature-card:hover { background: var(--surface2); transform: translateY(-4px); }
+  .feature-icon {
+    width: 40px; height: 40px; margin-bottom: 24px;
+    border: 1px solid var(--border); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent); font-size: 1.1rem;
+  }
+  .feature-card h3 {
+    font-size: .8rem; letter-spacing: .12em; text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .feature-card p { font-size: .85rem; color: var(--muted); line-height: 1.7; }
+
+  /* ── PROTECTION SPLIT ── */
+  .protection {
+    display: grid; grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+  }
+  .protection-media { position: relative; overflow: hidden; }
+  .protection-media img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(.8);
+    transition: transform .6s ease;
+  }
+  .protection-media:hover img { transform: scale(1.03); }
+  .protection-content {
+    background: var(--surface);
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 80px 72px;
+  }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 48px; }
+  .tag {
+    font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
+    border: 1px solid var(--border); padding: 8px 18px; color: var(--muted);
+  }
+  .big-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 5vw, 5rem); font-weight: 300;
+    line-height: 1.0; margin-bottom: 32px;
+  }
+  .big-title em { font-style: italic; color: var(--accent2); }
+  .desc { font-size: .9rem; color: var(--muted); line-height: 1.8; max-width: 400px; margin-bottom: 48px; }
+
+  /* ── ABOUT ── */
+  .about { padding: 140px 64px; }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .about-images { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .about-images img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+  .about-images img:first-child { grid-column: 1/-1; aspect-ratio: 16/9; }
+  .about-text h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 300;
+    line-height: 1.1; margin-bottom: 24px;
+  }
+  .about-text h2 em { font-style: italic; color: var(--accent2); }
+  .about-text p { font-size: .88rem; color: var(--muted); line-height: 1.8; margin-bottom: 32px; }
+  .about-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px; }
+  .about-list li {
+    font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+    padding-left: 20px; position: relative;
+  }
+  .about-list li::before {
+    content: '—'; position: absolute; left: 0; color: var(--accent);
+  }
+
+  /* ── FLEXFIT BAND ── */
+  .flexfit {
+    background: var(--surface); padding: 140px 64px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center;
+  }
+  .flexfit img { width: 100%; border-radius: 2px; }
+  .flexfit-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
+  .spec {
+    padding: 24px; border: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .spec h4 { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .spec p { font-size: .82rem; color: var(--muted); line-height: 1.6; }
+
+  /* ── CONTACT ── */
+  .contact {
+    padding: 140px 64px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 100px;
+  }
+  .contact-left h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 300;
+    line-height: 1.15; margin-bottom: 16px;
+  }
+  .contact-left h2 em { font-style: italic; color: var(--accent2); }
+  .contact-left p { font-size: .88rem; color: var(--muted); line-height: 1.8; }
+  .contact-form { display: flex; flex-direction: column; gap: 16px; }
+  .form-field {
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 16px 20px; color: var(--text); font-family: 'DM Sans', sans-serif;
+    font-size: .88rem; outline: none; transition: border-color .3s; width: 100%;
+  }
+  .form-field::placeholder { color: var(--muted); }
+  .form-field:focus { border-color: var(--accent); }
+  textarea.form-field { resize: vertical; min-height: 130px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 60px 64px 40px;
+    display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 60px;
+  }
+  .footer-brand p { font-size: .82rem; color: var(--muted); line-height: 1.8; margin: 16px 0 24px; max-width: 280px; }
+  .social-links { display: flex; gap: 16px; }
+  .social-links a {
+    width: 36px; height: 36px; border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted); text-decoration: none; font-size: .7rem;
+    transition: border-color .3s, color .3s;
+  }
+  .social-links a:hover { border-color: var(--accent); color: var(--accent); }
+  .footer-nav h4 { font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 20px; color: var(--muted); }
+  .footer-nav ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-nav a { color: var(--text); text-decoration: none; font-size: .85rem; transition: color .3s; }
+  .footer-nav a:hover { color: var(--accent); }
+  .footer-bottom {
+    grid-column: 1/-1; border-top: 1px solid var(--border); padding-top: 28px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-bottom p { font-size: .75rem; color: var(--muted); letter-spacing: .08em; }
+
+  /* ── ANIMATIONS ── */
+  .reveal { opacity: 0; transform: translateY(32px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) {
+    nav { padding: 18px 24px; }
+    .hero-content { padding: 0 24px 60px; }
+    .features { padding: 80px 24px; }
+    .features-grid { grid-template-columns: 1fr 1fr; }
+    .protection { grid-template-columns: 1fr; }
+    .protection-media { height: 50vw; }
+    .about { padding: 80px 24px; }
+    .about-grid { grid-template-columns: 1fr; }
+    .flexfit { grid-template-columns: 1fr; padding: 80px 24px; gap: 40px; }
+    .contact { grid-template-columns: 1fr; padding: 80px 24px; gap: 40px; }
+    footer { grid-template-columns: 1fr; padding: 60px 24px 40px; }
+    .protection-content { padding: 60px 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">noverix</a>
+  <ul class="nav-links">
+    <li><a href="#products" id="nav-products">Products</a></li>
+    <li><a href="#about" id="nav-about">About</a></li>
+    <li><a href="#contact" id="nav-contact">Contact</a></li>
+  </ul>
+
+  <div class="lang-switcher">
+    <button class="lang-btn" onclick="changeLang('tr')">TR</button>
+    <button class="lang-btn" onclick="changeLang('ar')">AR</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <video autoplay muted loop playsinline poster="PHOT/IMG_20250820_203320.jpg">
+    <source src="PHOT/VID_20250820_201835.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content reveal">
+    <p class="hero-label">New Collection — FlexFit Series</p>
+    <h1>Precision in<br><em>Every Detail</em></h1>
+    <p>Mobile accessories crafted where protection meets modern design. Engineered for everyday performance, comfort, and style.</p>
+    <a href="#products" class="btn btn-solid">Shop Now</a>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marqueeText">
+    <span>Shock Ready TPU</span><span class="dot">·</span>
+    <span>MagSafe Compatible</span><span class="dot">·</span>
+    <span>Metallic Accents</span><span class="dot">·</span>
+    <span>Smudge Resistant</span><span class="dot">·</span>
+    <span>Comfortable Grip</span><span class="dot">·</span>
+    <span>Waterproof</span><span class="dot">·</span>
+    <span>Eco Conscious</span><span class="dot">·</span>
+    <span>Shock Ready TPU</span><span class="dot">·</span>
+    <span>MagSafe Compatible</span><span class="dot">·</span>
+    <span>Metallic Accents</span><span class="dot">·</span>
+    <span>Smudge Resistant</span><span class="dot">·</span>
+    <span>Comfortable Grip</span><span class="dot">·</span>
+    <span>Waterproof</span><span class="dot">·</span>
+    <span>Eco Conscious</span><span class="dot">·</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features" id="products">
+  <p class="section-label reveal">Why noverix</p>
+  <h2 class="section-title reveal">Shape Your Style,<br><em>Enhance Your Experience</em></h2>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-icon">☀</div>
+      <h3>Daily Comfort</h3>
+      <p>Lightweight. Smooth. Feels natural all day long without compromise.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">⬡</div>
+      <h3>Metallic Accents</h3>
+      <p>Precision aluminum. Clean, modern detail that elevates every device.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">⊕</div>
+      <h3>MagSafe Ready</h3>
+      <p>Seamless wireless charging. Everyday convenience built right in.</p>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon">◈</div>
+      <h3>Everyday Guard</h3>
+      <p>Reliable protection engineered for the rigors of daily wear and use.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROTECTION SPLIT -->
+<section class="protection" id="protection">
+  <div class="protection-media">
+    <img src="PHOT/IMG_20250820_203320.jpg" alt="Protection Case">
+  </div>
+  <div class="protection-content">
+    <div class="tag-row reveal">
+      <span class="tag">Shock Ready TPU</span>
+      <span class="tag">Comfortable Grip</span>
+      <span class="tag">Smudge Resistant</span>
+    </div>
+    <h2 class="big-title reveal">Protection<br><em>That Moves</em><br>With You</h2>
+    <p class="desc reveal">Light. Strong. Comfortable. Our cases are engineered to absorb impact without adding bulk — protection that keeps up with your pace.</p>
+    <a href="#contact" class="btn reveal">Explore Cases</a>
+  </div>
+</section>
+
+<!-- ENGINEERED GALLERY -->
+<section class="about" style="padding-top: 140px; padding-bottom: 0;">
+  <p class="section-label reveal">Gallery</p>
+  <h2 class="section-title reveal">Engineered for <em>Everyday</em></h2>
+  <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4px;">
+    <img src="PHOT/1cscscs.jpg" alt="" style="width:100%; aspect-ratio:3/2; object-fit:cover;" class="reveal">
+    <img src="PHOT/dddd2.jpg" alt="" style="width:100%; object-fit:cover;" class="reveal">
+    <img src="PHOT/3ddddddd.jpg" alt="" style="width:100%; object-fit:cover;" class="reveal">
+  </div>
+</section>
+
+<!-- FLEXFIT -->
+<section class="flexfit">
+  <div class="reveal">
+    <img src="PHOT/m1.jpg" alt="FlexFit Band">
+    <div class="flexfit-specs">
+      <div class="spec">
+        <h4>Material</h4>
+        <p>Soft FKM fluoroelastomer, breathable channel design throughout.</p>
+      </div>
+      <div class="spec">
+        <h4>Closure</h4>
+        <p>Reinforced pin-and-tuck for a secure, all-day comfortable fit.</p>
+      </div>
+      <div class="spec">
+        <h4>Water</h4>
+        <p>Waterproof and sweat-ready for workouts and daily wear alike.</p>
+      </div>
+      <div class="spec">
+        <h4>Weight</h4>
+        <p>Featherlight construction you'll forget you're even wearing it.</p>
+      </div>
+    </div>
+  </div>
+  <div class="reveal">
+    <p class="section-label">FlexFit Series</p>
+    <h2 class="section-title" style="margin-bottom: 24px;">Where Style<br><em>Flows</em></h2>
+    <p class="desc">FlexFit is designed for people who move with intention. Built from soft FKM and engineered for lasting comfort, it adapts naturally to your day — whether you're training, traveling, or taking it slow.</p>
+    <p class="desc" style="margin-bottom:0;">Wear it anywhere. Feel it everywhere.</p>
+    <div style="margin-top: 40px; display: flex; gap: 16px;">
+      <a href="#contact" class="btn">Shop FlexFit</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-images reveal">
+      <img src="PHOT/m2.jpg" alt="About noverix">
+      <img src="PHOT/m3.jpg" alt="Detail">
+      <img src="PHOT/m4.jpg" alt="Band">
+    </div>
+    <div class="about-text">
+      <p class="section-label reveal">Our Journey</p>
+      <h2 class="reveal">Why Your Style <em>Deserves</em> the Best</h2>
+      <p class="reveal" style="margin-top: 24px;">noverix began with a simple belief: technology should complement your lifestyle, not complicate it. From our earliest ideas to every product today, we focus on thoughtful design, lasting quality, and real-world performance.</p>
+      <ul class="about-list reveal">
+        <li>Inspired by everyday life</li>
+        <li>Defined by modern craftsmanship</li>
+        <li>Driven by innovation</li>
+      </ul>
+
+      <h2 class="reveal" style="font-size: 1.8rem; margin-top: 48px;">Simple Essentials,<br><em>Thoughtfully Crafted</em></h2>
+      <p class="reveal" style="margin-top: 16px;">At noverix, we design tech accessories that feel as good as they function. Inspired by everyday life and modern minimalism, our products balance comfort, durability, and intentional style.</p>
+      <ul class="about-list reveal" style="margin-top: 20px;">
+        <li>Designed for daily comfort</li>
+        <li>Crafted with premium materials</li>
+        <li>Made for effortless living</li>
+      </ul>
+      <a href="#contact" class="btn reveal" style="margin-top: 16px;">About Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-left reveal">
+    <p class="section-label">Get in Touch</p>
+    <h2>Contact<br><em>Us</em></h2>
+    <p style="margin-top: 20px;">Have a question about our products, an order, or collaborations? We're here to help.</p>
+    <div style="margin-top: 48px; display: flex; flex-direction: column; gap: 16px;">
+      <div>
+        <p style="font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin-bottom:6px;">Instagram</p>
+        <p style="font-size:.88rem; color:var(--muted);">noverix</p>
+      </div>
+      <div>
+        <p style="font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin-bottom:6px;">TikTok</p>
+        <p style="font-size:.88rem; color:var(--muted);">noverix</p>
+      </div>
+    </div>
+  </div>
+  <div class="reveal">
+    <form class="contact-form" onsubmit="return false;">
+      <input class="form-field" type="text" placeholder="Name">
+      <input class="form-field" type="email" placeholder="Email">
+      <textarea class="form-field" placeholder="Message"></textarea>
+      <button type="submit" class="btn btn-solid" style="border:none; cursor:pointer; font-family:inherit; letter-spacing:.16em;">Submit Message</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <a href="#" class="nav-logo" style="display:inline-block; margin-bottom:0;">noverix</a>
+    <p>We design modern mobile accessories where precision materials meet everyday performance. Thoughtfully crafted to protect your devices while elevating comfort, durability, and refined style.</p>
+    <div class="social-links">
+      <a href="https://x.com/noverix" target="_blank" rel="noopener">𝕏</a>
+      <a href="https://www.facebook.com/@noverix/" target="_blank" rel="noopener">f</a>
+      <a href="https://www.tiktok.com/@noverix" target="_blank" rel="noopener">♪</a>
+      <a href="https://www.instagram.com/@noverix" target="_blank" rel="noopener">◎</a>
+    </div>
+  </div>
+  <div class="footer-nav">
+    <h4>Go to</h4>
+    <ul>
+      <li><a href="#products">Products</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+  <div class="footer-nav">
+    <h4>Legal</h4>
+    <ul>
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Terms of Use</a></li>
+      <li><a href="#">Returns</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 noverix. All rights reserved.</p>
+    <p>Built with precision, designed for life.</p>
+  </div>
+</footer>
+
+<script>
+  // 1. Kaydırma Animasyonu (Scroll Reveal)
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { 
+        e.target.classList.add('visible'); 
+        io.unobserve(e.target); 
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => io.observe(el));
+
+  // 2. Çeviri Sözlüğü
+  const translations = {
+    tr: {
+      products: "Ürünler",
+      about: "Hakkımızda",
+      contact: "İletişim",
+      heroLabel: "Yeni Koleksiyon — FlexFit Serisi",
+      heroTitle: "Her Detayda <br><em>Hassasiyet</em>",
+      heroDesc: "Korumanın modern tasarımla buluştuğu mobil aksesuarlar. Günlük performans, konfor ve stil için tasarlandı.",
+      shopNow: "Şimdi İncele",
+      featuresTitle: "Tarzınızı Şekillendirin, <br><em>Deneyiminizi Geliştirin</em>",
+      contactName: "İsim",
+      contactEmail: "E-posta",
+      contactMsg: "Mesajınız",
+      sendBtn: "Mesaj Gönder",
+      marquee: "Darbe Emici TPU · MagSafe Uyumlu · Metalik Detaylar · Leke Direnci · Konforlu Tutuş · "
+    },
+    ar: {
+      products: "المنتجات", 
+      about: "من نحن", 
+      contact: "اتصل بنا",
+      heroLabel: "مجموعة جديدة — سلسلة فليكس فيت",
+      heroTitle: "الدقة في <br><em>كل تفصيل</em>",
+      heroDesc: "إكسسوارات هواتف تجمع بين الحماية والتصميم عصري. صُممت للأداء اليومي، الراحة، والأناقة.",
+      shopNow: "تسوق الآن",
+      featuresTitle: "شكل أسلوبك، <br><em>وعزz تجربتك</em>",
+      contactName: "الاسم",
+      contactEmail: "البريد الإلكتروني",
+      contactMsg: "رسالتك",
+      sendBtn: "إرسال الرسالة",
+      marquee: "TPU مقاوم للصدمات · متوافق مع MagSafe · لمسات معدنية · مقاوم للبقع · قبضة مريحة · "
+    }
+  };
+
+  // 3. Ana Dil Değiştirme Fonksiyonu
+  function changeLang(lang) {
+    const t = translations[lang];
+    if (!t) return;
+    
+    document.documentElement.lang = lang;
+    document.body.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+    localStorage.setItem('preferredLang', lang);
+
+    // Buton Aktifliği
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.innerText.toLowerCase() === lang);
+    });
+
+    // Menü ve Başlıklar
+    document.getElementById('nav-products').innerText = t.products;
+    document.getElementById('nav-about').innerText = t.about;
+    document.getElementById('nav-contact').innerText = t.contact;
+    document.querySelector('.hero-label').innerText = t.heroLabel;
+    document.querySelector('.hero h1').innerHTML = t.heroTitle;
+    document.querySelector('.hero p').innerText = t.heroDesc;
+    document.querySelector('.hero .btn-solid').innerText = t.shopNow;
+    document.querySelector('.section-title').innerHTML = t.featuresTitle;
+
+    // Şık Marquee (Noktaları Koruyarak)
+    const marqueeElement = document.getElementById('marqueeText');
+    if (marqueeElement) {
+      // Metni parçalara ayırıp her birini şık bir span içine alıyoruz
+      const words = t.marquee.split(' · ');
+      const htmlContent = words.map(word => `<span>${word}</span><span class="dot">·</span>`).join('');
+      marqueeElement.innerHTML = htmlContent.repeat(5);
+    }
+
+    // Form Alanları
+    const nameInput = document.querySelector('input[type="text"]');
+    const emailInput = document.querySelector('input[type="email"]');
+    const msgInput = document.querySelector('textarea');
+    const submitBtn = document.querySelector('.contact-form .btn');
+
+    if(nameInput) nameInput.placeholder = t.contactName;
+    if(emailInput) emailInput.placeholder = t.contactEmail;
+    if(msgInput) msgInput.placeholder = t.contactMsg;
+    if(submitBtn) submitBtn.innerText = t.sendBtn;
+  }
+
+  // 4. Sayfa Açılış Ayarı
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('preferredLang') || 'tr';
+    changeLang(savedLang);
+  });
+</script>
+</body>
+</html>
